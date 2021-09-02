@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { useEffect } from "react";
 
-import './App.css';
+import { useAppDispatch } from "./store/index";
 
 function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
