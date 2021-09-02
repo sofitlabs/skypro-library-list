@@ -1,19 +1,25 @@
 import { types } from "../types";
 
+export type DataItemType = { [key: string]: string | number };
+
+export type StateType = {
+  data: DataItemType[];
+  sort: "default" | "up" | "down";
+  filter: string;
+};
+
 type ActionType = { type: string; payload: any };
 interface HandlersInterface {
-  [key: string]: (state: StateType, action: ActionType) => void;
+  [key: string]: (state: StateType, action: ActionType) => StateType;
 }
-
-type StateType = {
-  data: { [key: string]: string | number };
-};
 export const initialState: StateType = {
-  data: {},
+  data: [],
+  sort: "default",
+  filter: "",
 };
 
 const handlers: HandlersInterface = {
-  [types.library.SET_DATA]: (state, { payload }) => ({
+  [types.library.SET_DATA]: (state, { payload }): StateType => ({
     ...state,
     data: payload,
   }),
