@@ -12,3 +12,15 @@ export const fetchData = () => {
     }
   };
 };
+
+export const setSortStatus = (sort: "default" | "up" | "down") => {
+  return (dispatch: AppDispatch) => {
+    dispatch({ type: types.library.SET_SORT, payload: sort });
+  };
+};
+
+export const setFilter = (filter: string) => {
+  return (dispatch: AppDispatch) => {
+    dispatch({ type: types.library.SET_FILTER, payload: filter });
+  };
+};

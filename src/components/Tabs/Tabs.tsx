@@ -5,6 +5,28 @@ import { RootState, useAppSelector } from "../../store";
 import { DataItemType } from "../../store/reducers/library";
 import { TabItem } from "./TabItem";
 
+const sortData = (data: { [key: string]: DataItemType[] }, sort: string) => {
+  if (sort === "up") {
+    return Object.keys(data).sort((a, b) =>
+      data[a].length > data[b].length
+        ? -1
+        : data[a].length < data[b].length
+        ? 1
+        : 0,
+    );
+  }
+  if (sort === "down") {
+    return Object.keys(data).sort((a, b) =>
+      data[a].length > data[b].length
+        ? 1
+        : data[a].length < data[b].length
+        ? -1
+        : 0,
+    );
+  }
+  return Object.keys(data);
+};
+
 export const Tabs = () => {
   const { data, sort, filter } = useAppSelector(
     (state: RootState) => state.library,
@@ -34,51 +56,18 @@ export const Tabs = () => {
       },
       {},
     );
+    setSortedNames(sortData(newData, sort));
     setTransformedData(newData);
-  }, [data, filter]);
-
-  const sortData = useCallback(() => {
-    if (sort === "default") {
-      setSortedNames(Object.keys(transformedData));
-      return;
-    }
-    if (sort === "up") {
-      setSortedNames(
-        Object.keys(transformedData).sort((a, b) =>
-          transformedData[a].length > transformedData[b].length
-            ? -1
-            : transformedData[a].length < transformedData[b].length
-            ? 1
-            : 0,
-        ),
-      );
-      return;
-    }
-    if (sort === "down") {
-      setSortedNames(
-        Object.keys(transformedData).sort((a, b) =>
-          transformedData[a].length > transformedData[b].length
-            ? 1
-            : transformedData[a].length < transformedData[b].length
-            ? -1
-            : 0,
-        ),
-      );
-      return;
-    }
-  }, [sort, transformedData]);
+  }, [data, filter, sort]);
 
   useEffect(() => {
     transformData();
   }, [transformData]);
 
-  useEffect(() => {
-    sortData();
-  }, [sortData]);
-
   return (
     <div className="Tabs">
-      {!!sorterNames.length &&
+      {sorterNames &&
+        !!sorterNames.length &&
         sorterNames.map((place) => (
           <TabItem
             key={place}

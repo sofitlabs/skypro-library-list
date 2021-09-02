@@ -10,6 +10,7 @@ export const TabItem = ({
   libraryList: DataItemType[];
 }) => {
   const [isOpenLibrary, setOpenLibrary] = useState(false);
+  console.log(place, libraryList);
 
   return (
     <div className="Tabs__item Tab">

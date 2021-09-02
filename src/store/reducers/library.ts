@@ -14,7 +14,7 @@ interface HandlersInterface {
 }
 export const initialState: StateType = {
   data: [],
-  sort: "up",
+  sort: "default",
   filter: "",
 };
 
@@ -22,6 +22,14 @@ const handlers: HandlersInterface = {
   [types.library.SET_DATA]: (state, { payload }): StateType => ({
     ...state,
     data: payload,
+  }),
+  [types.library.SET_SORT]: (state, { payload }): StateType => ({
+    ...state,
+    sort: payload,
+  }),
+  [types.library.SET_FILTER]: (state, { payload }): StateType => ({
+    ...state,
+    filter: payload,
   }),
   default: (state) => state,
 };
