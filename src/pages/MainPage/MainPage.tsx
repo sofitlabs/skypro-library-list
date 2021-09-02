@@ -5,7 +5,6 @@ export const MainPage = () => {
   return (
     <AppLayout>
       <>
-        <div>MainPage</div>
         <Tabs />
       </>
     </AppLayout>
