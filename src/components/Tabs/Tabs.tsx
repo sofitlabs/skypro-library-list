@@ -14,6 +14,8 @@ export const Tabs = () => {
     [key: string]: DataItemType[];
   }>({});
 
+  const [sorterNames, setSortedNames] = useState<string[]>([]);
+
   const transformData = useCallback(() => {
     let newData = data.reduce(
       (acc: { [key: string]: DataItemType[] }, item) => {
@@ -36,14 +38,34 @@ export const Tabs = () => {
   }, [data, filter]);
 
   const sortData = useCallback(() => {
-    const newData = { ...transformedData };
+    if (sort === "default") {
+      setSortedNames(Object.keys(transformedData));
+      return;
+    }
     if (sort === "up") {
-      return Object.keys(newData).sort((a, b) => (a > b ? 1 : -1));
+      setSortedNames(
+        Object.keys(transformedData).sort((a, b) =>
+          transformedData[a].length > transformedData[b].length
+            ? -1
+            : transformedData[a].length < transformedData[b].length
+            ? 1
+            : 0,
+        ),
+      );
+      return;
     }
     if (sort === "down") {
-      return Object.keys(newData).sort((a, b) => (a < b ? 1 : -1));
+      setSortedNames(
+        Object.keys(transformedData).sort((a, b) =>
+          transformedData[a].length > transformedData[b].length
+            ? 1
+            : transformedData[a].length < transformedData[b].length
+            ? -1
+            : 0,
+        ),
+      );
+      return;
     }
-    setTransformedData(newData);
   }, [sort, transformedData]);
 
   useEffect(() => {
@@ -54,11 +76,19 @@ export const Tabs = () => {
     sortData();
   }, [sortData]);
 
+  useEffect(() => {
+    console.log(sorterNames);
+  }, [sorterNames]);
+
   return (
     <div className="Tabs">
-      {!!Object.keys(transformedData).length &&
-        Object.keys(transformedData).map((place) => (
-          <TabItem place={place} libraryList={transformedData[place]} />
+      {!!sorterNames.length &&
+        sorterNames.map((place) => (
+          <TabItem
+            key={place}
+            place={place}
+            libraryList={transformedData[place]}
+          />
         ))}
     </div>
   );
