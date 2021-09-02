@@ -5,7 +5,9 @@ import { RootState, useAppSelector } from "../../store";
 import { DataItemType } from "../../store/reducers/library";
 import { TabItem } from "./TabItem";
 
-const sortData = (data: { [key: string]: DataItemType[] }, sort: string) => {
+type DataObjectType = { [key: string]: DataItemType[] };
+
+const sortData = (data: DataObjectType, sort: string) => {
   if (sort === "up") {
     return Object.keys(data).sort((a, b) =>
       data[a].length > data[b].length
@@ -32,30 +34,25 @@ export const Tabs = () => {
     (state: RootState) => state.library,
   );
 
-  const [transformedData, setTransformedData] = useState<{
-    [key: string]: DataItemType[];
-  }>({});
+  const [transformedData, setTransformedData] = useState<DataObjectType>({});
 
   const [sorterNames, setSortedNames] = useState<string[]>([]);
 
   const transformData = useCallback(() => {
-    let newData = data.reduce(
-      (acc: { [key: string]: DataItemType[] }, item) => {
-        const place = item.territory;
-        if (
-          typeof place === "string" &&
-          place.toLowerCase().indexOf(filter.toLowerCase()) === -1
-        ) {
-          return acc;
-        }
-        if (place && !acc.hasOwnProperty(place)) {
-          acc[place] = [];
-        }
-        acc[place].push(item);
+    let newData = data.reduce((acc: DataObjectType, item) => {
+      const place = item.territory;
+      if (
+        typeof place === "string" &&
+        place.toLowerCase().indexOf(filter.toLowerCase()) === -1
+      ) {
         return acc;
-      },
-      {},
-    );
+      }
+      if (place && !acc.hasOwnProperty(place)) {
+        acc[place] = [];
+      }
+      acc[place].push(item);
+      return acc;
+    }, {});
     setSortedNames(sortData(newData, sort));
     setTransformedData(newData);
   }, [data, filter, sort]);
