@@ -5,6 +5,8 @@
   max-height: calc(100vh - 160px);
   overflow-y: scroll;
   padding: 16px;
+  width: 500px;
+  margin: 0 auto;
 }
 .Tab {
   &__label {
@@ -19,11 +21,22 @@
     transition: opacity 0.25s, font-size 0.5s 0.25s, margin 0.5s 0.25s,
       padding 0.5s 0.25s;
 
-    &:not(.Tab__library-list_opened) {
+    &:not(#{$selector}_opened) {
       font-size: 0;
       margin: 0;
       opacity: 0;
       padding: 0;
+      & .Library-list__item {
+        padding: 0;
+      }
     }
+  }
+}
+
+.Library-list {
+  &__item {
+    padding: 4px;
+    cursor: pointer;
+    transition: padding 0.5s 0.25s;
   }
 }

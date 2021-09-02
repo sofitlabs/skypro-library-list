@@ -14,7 +14,7 @@ interface HandlersInterface {
 }
 export const initialState: StateType = {
   data: [],
-  sort: "default",
+  sort: "up",
   filter: "",
 };
 

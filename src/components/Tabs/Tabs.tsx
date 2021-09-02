@@ -76,10 +76,6 @@ export const Tabs = () => {
     sortData();
   }, [sortData]);
 
-  useEffect(() => {
-    console.log(sorterNames);
-  }, [sorterNames]);
-
   return (
     <div className="Tabs">
       {!!sorterNames.length &&

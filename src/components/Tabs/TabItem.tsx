@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { DataItemType } from "../../store/reducers/library";
 
 export const TabItem = ({
@@ -24,7 +25,9 @@ export const TabItem = ({
         } Library-list`}
       >
         {libraryList.map((library) => (
-          <div key={library.order}>{library.fullname}</div>
+          <div key={library.order} className="Library-list__item">
+            <Link to={`/library/${library.order}`}>{library.fullname}</Link>
+          </div>
         ))}
       </div>
     </div>
